@@ -37,7 +37,11 @@ class StringSource2Step(WorkflowStepMountPoint):
                       'string'))
         self._config = {}
         self._config['identifier'] = ''
-        self._config['string'] = ' '
+        self._config['string'] = ''
+
+        self.string = None
+        self.tuple = None
+        self.dictionary = None
 
 
     def execute(self):
@@ -47,16 +51,17 @@ class StringSource2Step(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
-        if len(self.string) != 0:
+        if self.string!=None:
             self.stringOut = self._config['string'] % (self.string)
-            print self.stringOut
-            self._doneExecution()
-        elif len(self.Tuple) != 0:
-            self.stringOut = self._config['string'] % self.Tuple
-            self._doneExecution() 
-        else:
+        elif self.tuple!=None:
+            self.stringOut = self._config['string'] % self.tuple
+        elif self.dictionary!=None:
             self.stringOut = self._config['string'] % self.dictionary
-            self._doneExecution()
+        else:
+            self.stringOut = self._config['string']
+            
+        print self.stringOut
+        self._doneExecution()
 
     def setPortData(self, index, dataIn):
         '''
@@ -67,7 +72,7 @@ class StringSource2Step(WorkflowStepMountPoint):
         if index == 0:
             self.string = dataIn # string
         elif index == 1:
-            self.Tuple = dataIn # list
+            self.tuple = dataIn # list
         else:
             self.dictionary = dataIn # dictionary
 
