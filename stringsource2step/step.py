@@ -13,8 +13,7 @@ from stringsource2step.configuredialog import ConfigureDialog
 
 class StringSource2Step(WorkflowStepMountPoint):
     '''
-    Skeleton step which is intended to be a helpful starting point
-    for new steps.
+    Step for defining a string or formatting a string or strings.
     '''
 
     def __init__(self, location):
