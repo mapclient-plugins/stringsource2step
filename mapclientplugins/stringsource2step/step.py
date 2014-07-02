@@ -7,8 +7,8 @@ import os
 from PySide import QtGui
 from PySide import QtCore
 
-from mountpoints.workflowstep import WorkflowStepMountPoint
-from stringsource2step.configuredialog import ConfigureDialog
+from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
+from mapclientplugins.stringsource2step.configuredialog import ConfigureDialog
 
 
 class StringSource2Step(WorkflowStepMountPoint):
