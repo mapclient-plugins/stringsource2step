@@ -20,3 +20,4 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 __version__ = '0.1.0'
 __author__ = 'Alex Carleton'
 from mapclientplugins.stringsource2step import step
+import mapclientplugins.stringsource2step.resources_rc
