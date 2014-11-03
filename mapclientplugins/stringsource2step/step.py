@@ -7,8 +7,8 @@ import os
 from PySide import QtGui
 from PySide import QtCore
 
-from mountpoints.workflowstep import WorkflowStepMountPoint
-from stringsource2step.configuredialog import ConfigureDialog
+from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
+from mapclientplugins.stringsource2step.configuredialog import ConfigureDialog
 
 
 class StringSource2Step(WorkflowStepMountPoint):
@@ -21,6 +21,7 @@ class StringSource2Step(WorkflowStepMountPoint):
         self._configured = False # A step cannot be executed until it has been configured.
         self._category = 'General'
         # Add any other initialisation code here:
+        self._icon =  QtGui.QImage(':/stringsource2step/images/stringsourceicon.png')
         # Ports:
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#uses',
