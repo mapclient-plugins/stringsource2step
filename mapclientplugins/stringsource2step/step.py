@@ -60,7 +60,7 @@ class StringSource2Step(WorkflowStepMountPoint):
         else:
             self.stringOut = self._config['string']
             
-        print self.stringOut
+        print(self.stringOut)
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
