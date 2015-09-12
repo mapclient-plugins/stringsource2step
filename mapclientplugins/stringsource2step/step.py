@@ -17,9 +17,9 @@ class StringSource2Step(WorkflowStepMountPoint):
     '''
 
     def __init__(self, location):
-        super(StringSource2Step, self).__init__('String Source 2', location)
+        super(StringSource2Step, self).__init__('String Source', location)
         self._configured = False # A step cannot be executed until it has been configured.
-        self._category = 'General'
+        self._category = 'Source'
         # Add any other initialisation code here:
         self._icon =  QtGui.QImage(':/stringsource2step/images/stringsourceicon.png')
         # Ports:
