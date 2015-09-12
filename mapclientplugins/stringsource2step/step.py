@@ -52,13 +52,13 @@ class StringSource2Step(WorkflowStepMountPoint):
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
         if self.string!=None:
-            self.stringOut = self._config['string'].format(self.string)
+            self.stringOut = str(self._config['string']).format(self.string)
         elif self.tuple!=None:
-            self.stringOut = self._config['string'].format(*self.tuple)
+            self.stringOut = str(self._config['string']).format(*self.tuple)
         elif self.dictionary!=None:
-            self.stringOut = self._config['string'].format(**self.dictionary)
+            self.stringOut = str(self._config['string']).format(**self.dictionary)
         else:
-            self.stringOut = self._config['string']
+            self.stringOut = str(self._config['string'])
             
         print(self.stringOut)
         self._doneExecution()
