@@ -5,7 +5,7 @@ MAP Client Plugin Step
 import json
 
 from PySide import QtGui
-from PySide import QtCore
+import json
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.stringsource2step.configuredialog import ConfigureDialog
@@ -17,9 +17,9 @@ class StringSource2Step(WorkflowStepMountPoint):
     '''
 
     def __init__(self, location):
-        super(StringSource2Step, self).__init__('String Source 2', location)
+        super(StringSource2Step, self).__init__('String Source', location)
         self._configured = False # A step cannot be executed until it has been configured.
-        self._category = 'General'
+        self._category = 'Source'
         # Add any other initialisation code here:
         self._icon =  QtGui.QImage(':/stringsource2step/images/stringsourceicon.png')
         # Ports:
@@ -52,13 +52,13 @@ class StringSource2Step(WorkflowStepMountPoint):
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
         if self.string!=None:
-            self.stringOut = self._config['string'].format(self.string)
+            self.stringOut = str(self._config['string']).format(self.string)
         elif self.tuple!=None:
-            self.stringOut = self._config['string'].format(*self.tuple)
+            self.stringOut = str(self._config['string']).format(*self.tuple)
         elif self.dictionary!=None:
-            self.stringOut = self._config['string'].format(**self.dictionary)
+            self.stringOut = str(self._config['string']).format(**self.dictionary)
         else:
-            self.stringOut = self._config['string']
+            self.stringOut = str(self._config['string'])
             
         print(self.stringOut)
         self._doneExecution()
@@ -118,20 +118,15 @@ class StringSource2Step(WorkflowStepMountPoint):
 
     def serialize(self):
         '''
-        Add code to serialize this step to disk.  The filename should
-        use the step identifier (received from getIdentifier()) to keep it
-        unique within the workflow.  The suggested name for the file on
-        disk is:
-            filename = getIdentifier() + '.conf'
+        Add code to serialize this step to disk. Returns a json string for
+        mapclient to serialise.
         '''
         return json.dumps(self._config, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def deserialize(self, string):
         '''
-        Add code to deserialize this step from disk.  As with the serialize 
-        method the filename should use the step identifier.  Obviously the 
-        filename used here should be the same as the one used by the
-        serialize method.
+        Add code to deserialize this step from disk. Parses a json string
+        given by mapclient
         '''
         self._config.update(json.loads(string))
 
