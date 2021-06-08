@@ -1,10 +1,9 @@
-
 '''
 MAP Client Plugin Step
 '''
 import json
 
-from PySide import QtGui
+from PySide2 import QtGui, QtWidgets
 import json
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
@@ -18,10 +17,10 @@ class StringSource2Step(WorkflowStepMountPoint):
 
     def __init__(self, location):
         super(StringSource2Step, self).__init__('String Source', location)
-        self._configured = False # A step cannot be executed until it has been configured.
+        self._configured = False  # A step cannot be executed until it has been configured.
         self._category = 'Source'
         # Add any other initialisation code here:
-        self._icon =  QtGui.QImage(':/stringsource2step/images/stringsourceicon.png')
+        self._icon = QtGui.QImage(':/stringsource2step/images/stringsourceicon.png')
         # Ports:
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#uses',
@@ -43,7 +42,6 @@ class StringSource2Step(WorkflowStepMountPoint):
         self.tuple = None
         self.dictionary = None
 
-
     def execute(self):
         '''
         Add your code here that will kick off the execution of the step.
@@ -51,15 +49,15 @@ class StringSource2Step(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
-        if self.string!=None:
+        if self.string != None:
             self.stringOut = str(self._config['string']).format(self.string)
-        elif self.tuple!=None:
+        elif self.tuple != None:
             self.stringOut = str(self._config['string']).format(*self.tuple)
-        elif self.dictionary!=None:
+        elif self.dictionary != None:
             self.stringOut = str(self._config['string']).format(**self.dictionary)
         else:
             self.stringOut = str(self._config['string'])
-            
+
         print(self.stringOut)
         self._doneExecution()
 
@@ -70,11 +68,11 @@ class StringSource2Step(WorkflowStepMountPoint):
         uses port for this step then the index can be ignored.
         '''
         if index == 0:
-            self.string = dataIn # string
+            self.string = dataIn  # string
         elif index == 1:
-            self.tuple = dataIn # list
+            self.tuple = dataIn  # list
         else:
-            self.dictionary = dataIn # dictionary
+            self.dictionary = dataIn  # dictionary
 
     def getPortData(self, index):
         '''
@@ -82,7 +80,7 @@ class StringSource2Step(WorkflowStepMountPoint):
         The index is the index of the port in the port list.  If there is only one
         provides port for this step then the index can be ignored.
         '''
-        return self.stringOut # string
+        return self.stringOut  # string
 
     def configure(self):
         '''
@@ -92,15 +90,15 @@ class StringSource2Step(WorkflowStepMountPoint):
         then set:
             self._configured = True
         '''
-        dlg = ConfigureDialog(QtGui.QApplication.activeWindow().currentWidget())
+        dlg = ConfigureDialog(self._main_window)
         dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
         dlg.setModal(True)
-        
+
         if dlg.exec_():
             self._config = dlg.getConfig()
-        
+
         self._configured = dlg.validate()
         self._configuredObserver()
 
@@ -134,5 +132,3 @@ class StringSource2Step(WorkflowStepMountPoint):
         d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()
-
-
